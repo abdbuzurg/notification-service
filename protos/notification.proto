@@ -1,0 +1,52 @@
+syntax = "proto3";
+package notification;
+
+import "google/protobuf/timestamp.proto";
+
+// Updated to match the "loan" module name
+option go_package = "asr_leasing_notification/protos";
+
+service NotificationService {
+  rpc GetNotificationStatus(GetStatusReq) returns (GetStatusResp);
+  rpc ListNotifications(ListReq) returns (ListResp);
+  rpc ResendNotification(ResendReq) returns (ResendResp);
+}
+
+message Notification {
+  int64 id = 1;
+  int64 user_id = 2;
+  string channel = 3;
+  string recipient = 4;
+  string subject = 5;
+  string body = 6;
+  string status = 7;
+  int32 retry_count = 8;
+  string error_message = 9;
+  google.protobuf.Timestamp created_at = 10;
+  google.protobuf.Timestamp sent_at = 11;
+  string source = 12;
+}
+
+message GetStatusReq {
+  int64 notification_id = 1;
+}
+message GetStatusResp {
+  Notification notification = 1;
+}
+
+message ListReq {
+  int64 user_id = 1;
+  int32 page_size = 2;
+  int32 offset = 3;
+}
+message ListResp {
+  repeated Notification notifications = 1;
+}
+
+message ResendReq {
+  int64 notification_id = 1;
+}
+message ResendResp {
+  bool success = 1;
+  string message = 2;
+}

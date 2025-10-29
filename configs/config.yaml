@@ -1,0 +1,19 @@
+rabbitmq:
+  host: "localhost"
+  port: "5672"
+  user: "guest"
+  password: "guest"
+  queue_names:
+    - "notification"
+  retry_config:
+    exchange: "notifications_retry_dlx"
+    queue: "notifications_retry_wait"
+    routing_key: "notifications_retry_target"
+    delay_ms: 30000
+postgresql:
+  host: "localhost"
+  port: "5432"
+  user: "postgres"
+  password: "password"
+  dbname: "notifications_db"
+  sslmode: "disable"
