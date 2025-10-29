@@ -1,20 +1,16 @@
 package main
 
 import (
-	pb "asr_leasing_notification/asr_leasing_notification/protos"
 	"asr_leasing_notification/internal/platform/database"
 	"asr_leasing_notification/internal/platform/message_broker"
 	publisher_handler "asr_leasing_notification/internal/publisher/handler"
-	"asr_leasing_notification/internal/server"
 	subscriber_handler "asr_leasing_notification/internal/subscriber/handler"
 	"asr_leasing_notification/internal/subscriber/notifiers"
 	subscriber_repository "asr_leasing_notification/internal/subscriber/repository"
 	subscriber_usecase "asr_leasing_notification/internal/subscriber/usecase"
 	"log"
-	"net"
 
 	"github.com/spf13/viper"
-	"google.golang.org/grpc"
 )
 
 func init() {
@@ -63,17 +59,4 @@ func main() {
 			log.Fatalf("Subscriber fatal error: %s", err)
 		}
 	}()
-
-	// gRPC
-	lis, err := net.Listen("tcp", ":9090")
-	if err != nil {
-		log.Fatalf("Failed to listen to port 9090: %v", err)
-	}
-
-	grpcServer := grpc.NewServer()
-	notificationServer := server.NewGRPCServer(subscriberRepo, notifiers)
-	pb.RegisterNotificationServiceServer(grpcServer, notificationServer)
-	if err := grpcServer.Serve(lis); err != nil {
-		log.Fatalf("gRPC server failed: %v", err)
-	}
 }
