@@ -16,7 +16,7 @@ import (
 func init() {
 	viper.SetConfigName("config")
 	viper.SetConfigType("yaml")
-	viper.AddConfigPath("./config")
+	viper.AddConfigPath("./configs")
 	if err := viper.ReadInConfig(); err != nil {
 		log.Fatalf("Error reading config file: %s", err)
 	}
@@ -50,7 +50,7 @@ func main() {
 	amqpSubscriber := subscriber_handler.NewAMQPSubscriber(rabbitMQConn, subscriberUC)
 
 	go func() {
-		queueNames := viper.GetStringSlice("rabbitmq_queue_names")
+		queueNames := viper.GetStringSlice("rabbitmq.queue_names")
 		if len(queueNames) == 0 {
 			log.Fatal("No queue names found for subscriber")
 		}

@@ -19,6 +19,7 @@ func NewPostgresConnection() (*pgxpool.Pool, error) {
 		viper.GetString("postgresql.sslmode"),
 	)
 
+	fmt.Println(connStr)
 	pool, err := pgxpool.Connect(context.Background(), connStr)
 	if err != nil {
 		return nil, fmt.Errorf("unable to connect to database: %v", err)

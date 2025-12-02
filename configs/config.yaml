@@ -10,10 +10,16 @@ rabbitmq:
     queue: "notifications_retry_wait"
     routing_key: "notifications_retry_target"
     delay_ms: 30000
+
 postgresql:
   host: "localhost"
-  port: "5432"
+  port: "5433"
   user: "postgres"
   password: "password"
   dbname: "notifications_db"
   sslmode: "disable"
+
+sms: 
+  login: "ASR_smpp"
+  password: "Vb9#cH2pL!sQ7zG4"
+  base_url: "https://10.62.10.2:2112"
