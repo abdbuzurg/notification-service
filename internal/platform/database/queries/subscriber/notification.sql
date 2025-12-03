@@ -20,9 +20,20 @@ SET
 WHERE id = $1;
 
 -- name: GetNotificationByID :one
-SELECT * FROM notifications WHERE id = $1;
+select *
+from notifications
+where id = $1
+;
 
 -- name: ListNotificationsByUserID :many
-SELECT * FROM notifications
-WHERE user_id = $1
-ORDER BY created_at DESC;
+select *
+from notifications
+where user_id = $1
+order by created_at desc
+;
+
+-- name: CountSmsSent :one
+select count(*)
+from notifications
+where notification_channel = 'SMS'
+;

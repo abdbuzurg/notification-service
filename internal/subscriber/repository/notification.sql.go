@@ -10,6 +10,19 @@ import (
 	"database/sql"
 )
 
+const countSmsSent = `-- name: CountSmsSent :one
+select count(*)
+from notifications
+where notification_channel = 'SMS'
+`
+
+func (q *Queries) CountSmsSent(ctx context.Context) (int64, error) {
+	row := q.db.QueryRow(ctx, countSmsSent)
+	var count int64
+	err := row.Scan(&count)
+	return count, err
+}
+
 const createNotification = `-- name: CreateNotification :one
 INSERT INTO notifications (user_id, channel, recipient, subject, body, source)
 VALUES ($1, $2, $3, $4, $5, $6)
@@ -53,7 +66,9 @@ func (q *Queries) CreateNotification(ctx context.Context, arg CreateNotification
 }
 
 const getNotificationByID = `-- name: GetNotificationByID :one
-SELECT id, user_id, channel, recipient, subject, body, status, source, retry_count, error_message, created_at, sent_at FROM notifications WHERE id = $1
+select id, user_id, channel, recipient, subject, body, status, source, retry_count, error_message, created_at, sent_at
+from notifications
+where id = $1
 `
 
 func (q *Queries) GetNotificationByID(ctx context.Context, id int64) (Notification, error) {
@@ -77,9 +92,10 @@ func (q *Queries) GetNotificationByID(ctx context.Context, id int64) (Notificati
 }
 
 const listNotificationsByUserID = `-- name: ListNotificationsByUserID :many
-SELECT id, user_id, channel, recipient, subject, body, status, source, retry_count, error_message, created_at, sent_at FROM notifications
-WHERE user_id = $1
-ORDER BY created_at DESC
+select id, user_id, channel, recipient, subject, body, status, source, retry_count, error_message, created_at, sent_at
+from notifications
+where user_id = $1
+order by created_at desc
 `
 
 func (q *Queries) ListNotificationsByUserID(ctx context.Context, userID sql.NullInt64) ([]Notification, error) {

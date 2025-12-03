@@ -41,8 +41,14 @@ func main() {
 	//Subscriber
 	subscriberRepo := subscriber_repository.New(dbPool)
 	notifiers := map[subscriber_repository.NotificationChannel]notifiers.Notifier{
-		subscriber_repository.NotificationChannelEMAIL:    notifiers.NewEmailNotifier(),
-		subscriber_repository.NotificationChannelSMS:      notifiers.NewSmsNotifier(),
+		subscriber_repository.NotificationChannelEMAIL: notifiers.NewEmailNotifier(),
+		subscriber_repository.NotificationChannelSMS: notifiers.NewOsonSMSNotifier(
+			subscriberRepo,
+			viper.GetString("oson_sms.login"),
+			viper.GetString("oson_sms.from"),
+			viper.GetString("oson_sms.hash"),
+			viper.GetString("oson_sms.url"),
+		),
 		subscriber_repository.NotificationChannelPUSH:     notifiers.NewPushNotifier(),
 		subscriber_repository.NotificationChannelTELEGRAM: notifiers.NewTelegramNotifier(),
 	}

@@ -23,3 +23,9 @@ sms:
   login: "ASR_smpp"
   password: "Vb9#cH2pL!sQ7zG4"
   base_url: "https://10.62.10.2:2112"
+
+oson_sms: 
+  login: "asrleasing"
+  hash: "e066e9fd3eaba258e0c175006e4fdca1"
+  from: "OsonSMS"
+  url: "https://api.osonsms.com/sendsms_v1.php"
