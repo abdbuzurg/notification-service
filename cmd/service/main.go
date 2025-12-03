@@ -9,6 +9,9 @@ import (
 	subscriber_repository "asr_leasing_notification/internal/subscriber/repository"
 	subscriber_usecase "asr_leasing_notification/internal/subscriber/usecase"
 	"log"
+	"os"
+	"os/signal"
+	"syscall"
 
 	"github.com/spf13/viper"
 )
@@ -65,4 +68,10 @@ func main() {
 			log.Fatalf("Subscriber fatal error: %s", err)
 		}
 	}()
+
+	sig := make(chan os.Signal, 1)
+	signal.Notify(sig, os.Interrupt, syscall.SIGTERM)
+	<-sig
+
+	log.Println("Shutting down gracefully...")
 }

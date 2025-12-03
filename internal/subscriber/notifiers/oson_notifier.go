@@ -52,10 +52,12 @@ func (n *OsonSMSNotifier) Send(ctx context.Context, notification repository.Noti
 	txn_id := 0 + smsCount
 	content := fmt.Sprintf("%d;%s;%s;%s;%s", txn_id, n.login, n.from, notification.Recipient, n.hash)
 	str_hash := n.generateSha256Hash(content)
+
 	url := fmt.Sprintf(
 		"%s?from=%s&msg=%s&login=%s&str_hash=%s&phone_number=%s&txn_id=%d",
 		n.url, n.from, notification.Body.String, n.login, str_hash, notification.Recipient, txn_id,
 	)
+	fmt.Println(content, "\n", str_hash, "\n", url)
 
 	resp, err := http.Get(url)
 	if err != nil {

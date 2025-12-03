@@ -13,7 +13,7 @@ rabbitmq:
 
 postgresql:
   host: "localhost"
-  port: "5433"
+  port: "5432"
   user: "postgres"
   password: "password"
   dbname: "notifications_db"
@@ -29,3 +29,4 @@ oson_sms:
   hash: "e066e9fd3eaba258e0c175006e4fdca1"
   from: "OsonSMS"
   url: "https://api.osonsms.com/sendsms_v1.php"
+  txn_id: 0

@@ -35,5 +35,5 @@ order by created_at desc
 -- name: CountSmsSent :one
 select count(*)
 from notifications
-where notification_channel = 'SMS'
+where channel = 'SMS'
 ;

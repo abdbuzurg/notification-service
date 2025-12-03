@@ -13,7 +13,7 @@ import (
 const countSmsSent = `-- name: CountSmsSent :one
 select count(*)
 from notifications
-where notification_channel = 'SMS'
+where channel = 'SMS'
 `
 
 func (q *Queries) CountSmsSent(ctx context.Context) (int64, error) {
